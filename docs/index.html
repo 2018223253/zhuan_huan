@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>待办事项 | Todo List</title>
+    <title>小商城 | Shop</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <script>
@@ -28,50 +28,14 @@
             .content-auto {
                 content-visibility: auto;
             }
-            .task-enter {
-                animation: taskEnter 0.5s ease forwards;
+            .product-card {
+                transition: all 0.3s ease;
             }
-            .task-exit {
-                animation: taskExit 0.3s ease forwards;
-            }
-            .task-completed {
-                animation: taskComplete 0.3s ease forwards;
+            .product-card:hover {
+                transform: translateY(-5px);
             }
             .float {
                 animation: float 3s ease-in-out infinite;
-            }
-            .theme-transition {
-                transition: all 0.3s ease;
-            }
-            @keyframes taskEnter {
-                from {
-                    opacity: 0;
-                    transform: translateY(20px);
-                }
-                to {
-                    opacity: 1;
-                    transform: translateY(0);
-                }
-            }
-            @keyframes taskExit {
-                from {
-                    opacity: 1;
-                    transform: translateX(0);
-                }
-                to {
-                    opacity: 0;
-                    transform: translateX(100px);
-                }
-            }
-            @keyframes taskComplete {
-                from {
-                    opacity: 1;
-                    transform: scale(1);
-                }
-                to {
-                    opacity: 0.7;
-                    transform: scale(0.98);
-                }
             }
             @keyframes float {
                 0% {
@@ -95,358 +59,289 @@
         body.dark .bg-white {
             background-color: #1e293b;
         }
-        body.dark .border-slate-100 {
-            border-color: #334155;
-        }
         body.dark .border-slate-200 {
             border-color: #334155;
         }
-        body.dark .text-slate-500 {
+        body.dark .text-slate-600 {
             color: #94a3b8;
         }
-        body.dark .text-slate-400 {
-            color: #94a3b8;
-        }
-        body.dark .text-slate-300 {
+        body.dark .text-slate-700 {
             color: #cbd5e1;
-        }
-        body.dark #emptyState i {
-            color: #334155;
         }
         body.dark .hover\:bg-slate-100:hover {
             background-color: #334155;
         }
-        body.dark .hover\:bg-red-50:hover {
-            background-color: rgba(239, 68, 68, 0.1);
-        }
-        body.dark input {
-            background-color: #334155;
-            color: #f8fafc;
-        }
-        body.dark input::placeholder {
-            color: #94a3b8;
+        body.dark .bg-slate-50 {
+            background-color: #1e293b;
         }
     </style>
 </head>
-<body class="bg-gradient-to-br from-slate-50 to-slate-100 min-h-screen font-sans text-dark">
-    <!-- 主题切换按钮 -->
-    <button 
-        id="themeToggle" 
-        class="fixed top-4 right-4 p-3 rounded-full bg-white hover:bg-slate-100 shadow-md transition-all duration-300 theme-transition z-50 border border-slate-200"
-        aria-label="切换主题"
-        style="min-width: 56px; min-height: 56px; display: flex; align-items: center; justify-content: center;"
-    >
-        <i class="fa fa-moon-o text-slate-700 text-2xl"></i>
-    </button>
+<body class="bg-slate-50 min-h-screen font-sans text-dark dark">
+
     
-    <div class="container mx-auto px-4 py-16 max-w-3xl">
+    <div class="container mx-auto px-4 py-12 max-w-6xl">
         <!-- 头部 -->
-        <header class="text-center mb-16">
-            <div class="flex justify-center items-center mb-6">
-                <i class="fa fa-check-circle text-primary text-5xl mr-4 float"></i>
-                <h1 class="text-4xl md:text-6xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-                    待办事项
+        <header class="text-center mb-12">
+            <div class="flex justify-center items-center mb-4">
+                <i class="fa fa-shopping-bag text-primary text-4xl mr-3 float"></i>
+                <h1 class="text-3xl md:text-4xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                    保定资源
                 </h1>
             </div>
-            <p class="text-slate-500 text-lg theme-transition max-w-lg mx-auto">
-                管理你的任务，提高工作效率
+            <p class="text-slate-600 text-base max-w-lg mx-auto">
+                以下为保定的(主管保定)
             </p>
         </header>
 
-        <!-- 任务输入区域 -->
-        <div class="mb-8">
-            <form id="taskForm" class="flex flex-col md:flex-row gap-3">
-                <input 
-                    type="text" 
-                    id="taskInput" 
-                    placeholder="输入新任务..." 
-                    class="flex-1 px-4 py-3 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-300 shadow-sm theme-transition"
-                    required
-                >
-                <button 
-                    type="submit" 
-                    class="px-6 py-3 bg-gradient-to-r from-primary to-secondary text-white font-medium rounded-lg hover:shadow-lg hover:shadow-primary/20 transition-all duration-300 transform hover:-translate-y-0.5 active:translate-y-0 theme-transition"
-                >
-                    <i class="fa fa-plus mr-2"></i> 添加任务
-                </button>
-            </form>
-        </div>
-
-        <!-- 过滤按钮 -->
-        <div class="flex justify-center mb-8 space-x-2">
-            <button 
-                class="filter-btn active px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 theme-transition"
-                data-filter="all"
-            >
-                全部
-            </button>
-            <button 
-                class="filter-btn px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 theme-transition"
-                data-filter="active"
-            >
-                未完成
-            </button>
-            <button 
-                class="filter-btn px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 theme-transition"
-                data-filter="completed"
-            >
-                已完成
-            </button>
-        </div>
-
-        <!-- 任务列表 -->
-        <div class="bg-white rounded-xl shadow-md p-4 md:p-6 mb-8 theme-transition">
-            <ul id="taskList" class="space-y-3">
-                <!-- 任务项将通过JavaScript动态添加 -->
-            </ul>
-            <!-- 空状态 -->
-            <div id="emptyState" class="text-center py-12 hidden theme-transition">
-                <i class="fa fa-check-square-o text-6xl text-slate-200 mb-4 theme-transition"></i>
-                <p class="text-slate-400 text-lg theme-transition">暂无任务</p>
-                <p class="text-slate-300 mt-2 theme-transition">添加一个新任务开始吧！</p>
+        <!-- 百科图书风格温馨提示 -->
+        <div class="bg-gradient-to-r from-amber-700 to-amber-900 text-amber-100 p-4 rounded-lg shadow-lg mb-8 border border-amber-600">
+            <div class="flex items-start gap-3">
+                <div class="text-amber-300 text-xl">
+                    <i class="fa fa-book"></i>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-amber-200 mb-1 flex items-center">
+                        <i class="fa fa-lightbulb-o mr-1"></i> 温馨提示
+                    </h4>
+                    <p class="text-sm text-amber-200/90 leading-relaxed">
+                        本店用于售卖联系方式和微信，付款后联系客服 QQ: <span class="font-semibold underline">2018223253</span> 并携带付款截图领取商品。
+                    </p>
+                </div>
             </div>
         </div>
 
-        <!-- 统计信息 -->
-        <footer class="flex justify-between items-center text-sm text-slate-500 theme-transition">
-            <span id="taskCount" class="theme-transition">0 个任务</span>
-            <button 
-                id="clearCompleted" 
-                class="text-slate-400 hover:text-red-500 transition-colors duration-300 theme-transition"
-                disabled
-            >
-                清除已完成
-            </button>
-        </footer>
+        <!-- 商品列表 -->
+        <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-2 gap-6 mb-12">
+            <!-- 商品1 -->
+            <div class="product-card bg-white rounded-xl shadow-md overflow-hidden border border-slate-200">
+                <div class="relative aspect-square overflow-hidden">
+                    <img src="static/0773293ab93688e1783df03bf3cce30a.jpg" alt="商品1" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+                </div>
+                <div class="p-4">
+                    <h3 class="text-lg font-semibold mb-2">精美手工艺品</h3>
+                    <p class="text-slate-600 text-sm mb-3">26岁，单6，huo多</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-xl font-bold text-primary">¥25.00</span>
+                        <button class="buy-btn px-4 py-1.5 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors duration-300 text-sm" data-product="精美手工艺品" data-price="99.00">
+                            <i class="fa fa-shopping-cart mr-1"></i> 购买
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 商品2 -->
+            <div class="product-card bg-white rounded-xl shadow-md overflow-hidden border border-slate-200">
+                <div class="relative aspect-square overflow-hidden">
+                    <img src="static/0ebce9d8d513bca4de8aad34a2da92c8.jpg" alt="商品2" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+                </div>
+                <div class="p-4">
+                    <h3 class="text-lg font-semibold mb-2">艺术画作</h3>
+                    <p class="text-slate-600 text-sm mb-3">24岁，单7，好看</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-xl font-bold text-primary">¥38.00</span>
+                        <button class="buy-btn px-4 py-1.5 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors duration-300 text-sm" data-product="艺术画作" data-price="199.00">
+                            <i class="fa fa-shopping-cart mr-1"></i> 购买
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 商品3 -->
+            <div class="product-card bg-white rounded-xl shadow-md overflow-hidden border border-slate-200">
+                <div class="relative aspect-square overflow-hidden">
+                    <img src="static/2fbfa35afe58c22e85624ceb9ebe5407.jpg" alt="商品3" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+                </div>
+                <div class="p-4">
+                    <h3 class="text-lg font-semibold mb-2">时尚配饰</h3>
+                    <p class="text-slate-600 text-sm mb-3">保定茶叶群</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-xl font-bold text-primary">¥15.00</span>
+                        <button class="buy-btn px-4 py-1.5 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors duration-300 text-sm" data-product="时尚配饰" data-price="149.00">
+                            <i class="fa fa-shopping-cart mr-1"></i> 购买
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 商品4 -->
+            <div class="product-card bg-white rounded-xl shadow-md overflow-hidden border border-slate-200">
+                <div class="relative aspect-square overflow-hidden">
+                    <img src="static/424a18e10d01d7a76ce1e8702ed6d1f6.jpg" alt="商品4" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+                </div>
+                <div class="p-4">
+                    <h3 class="text-lg font-semibold mb-2">家居装饰</h3>
+                    <p class="text-slate-600 text-sm mb-3">wai-wei，绝对漂亮,单880</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-xl font-bold text-primary">¥48.00</span>
+                        <button class="buy-btn px-4 py-1.5 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors duration-300 text-sm" data-product="家居装饰" data-price="129.00">
+                            <i class="fa fa-shopping-cart mr-1"></i> 购买
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 商品5 -->
+            <div class="product-card bg-white rounded-xl shadow-md overflow-hidden border border-slate-200">
+                <div class="relative aspect-square overflow-hidden">
+                    <img src="static/5833be2f505c59d4b0e1a7c5e77a5667.jpg" alt="商品5" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+                </div>
+                <div class="p-4">
+                    <h3 class="text-lg font-semibold mb-2">创意礼品</h3>
+                    <p class="text-slate-600 text-sm mb-3">精神小妹，单6或者7</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-xl font-bold text-primary">¥38.00</span>
+                        <button class="buy-btn px-4 py-1.5 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors duration-300 text-sm" data-product="创意礼品" data-price="89.00">
+                            <i class="fa fa-shopping-cart mr-1"></i> 购买
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 商品6 -->
+            <div class="product-card bg-white rounded-xl shadow-md overflow-hidden border border-slate-200">
+                <div class="relative aspect-square overflow-hidden">
+                    <img src="static/67217370a11e9c8e6874b7da000506cc.jpg" alt="商品6" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+                </div>
+                <div class="p-4">
+                    <h3 class="text-lg font-semibold mb-2">保定学生</h3>
+                    <p class="text-slate-600 text-sm mb-3">学生不展示照片</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-xl font-bold text-primary">¥68.00</span>
+                        <button class="buy-btn px-4 py-1.5 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors duration-300 text-sm" data-product="收藏品" data-price="299.00">
+                            <i class="fa fa-shopping-cart mr-1"></i> 购买
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <script>
-        // 任务数据
-        let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
-        
-        // DOM元素
-        const taskForm = document.getElementById('taskForm');
-        const taskInput = document.getElementById('taskInput');
-        const taskList = document.getElementById('taskList');
-        const emptyState = document.getElementById('emptyState');
-        const taskCount = document.getElementById('taskCount');
-        const clearCompleted = document.getElementById('clearCompleted');
-        const filterBtns = document.querySelectorAll('.filter-btn');
-        const themeToggle = document.getElementById('themeToggle');
-        const body = document.body;
-        
-        // 当前过滤器
-        let currentFilter = 'all';
-        
-        // 初始化
-        function init() {
-            // 初始化主题
-            initTheme();
-            renderTasks();
-            updateStats();
-            updateEmptyState();
-        }
-        
-        // 初始化主题
-        function initTheme() {
-            const savedTheme = localStorage.getItem('theme');
-            if (savedTheme === 'dark') {
-                body.classList.add('dark');
-                themeToggle.innerHTML = '<i class="fa fa-sun-o text-yellow-400 text-2xl"></i>';
-                themeToggle.classList.remove('bg-white', 'hover:bg-slate-100', 'border-slate-200');
-                themeToggle.classList.add('bg-slate-800', 'hover:bg-slate-700', 'border-slate-700');
-            }
-        }
-        
-        // 切换主题
-        function toggleTheme() {
-            body.classList.toggle('dark');
-            
-            if (body.classList.contains('dark')) {
-                themeToggle.innerHTML = '<i class="fa fa-sun-o text-yellow-400 text-2xl"></i>';
-                themeToggle.classList.remove('bg-white', 'hover:bg-slate-100', 'border-slate-200');
-                themeToggle.classList.add('bg-slate-800', 'hover:bg-slate-700', 'border-slate-700');
-                localStorage.setItem('theme', 'dark');
-            } else {
-                themeToggle.innerHTML = '<i class="fa fa-moon-o text-slate-700 text-2xl"></i>';
-                themeToggle.classList.remove('bg-slate-800', 'hover:bg-slate-700', 'border-slate-700');
-                themeToggle.classList.add('bg-white', 'hover:bg-slate-100', 'border-slate-200');
-                localStorage.setItem('theme', 'light');
-            }
-        }
-        
-        // 渲染任务列表
-        function renderTasks() {
-            taskList.innerHTML = '';
-            
-            const filteredTasks = tasks.filter(task => {
-                if (currentFilter === 'active') return !task.completed;
-                if (currentFilter === 'completed') return task.completed;
-                return true;
-            });
-            
-            filteredTasks.forEach(task => {
-                const taskItem = createTaskElement(task);
-                taskList.appendChild(taskItem);
-            });
-        }
-        
-        // 创建任务元素
-        function createTaskElement(task) {
-            const li = document.createElement('li');
-            li.className = `task-enter flex items-center justify-between p-4 rounded-lg border border-slate-100 hover:shadow-md transition-all duration-300 ${task.completed ? 'task-completed opacity-70' : ''}`;
-            li.dataset.id = task.id;
-            
-            li.innerHTML = `
-                <div class="flex items-center gap-3">
-                    <button class="task-toggle w-6 h-6 rounded-full border-2 ${task.completed ? 'border-primary bg-primary text-white' : 'border-slate-300'} flex items-center justify-center transition-all duration-300 hover:scale-110">
-                        ${task.completed ? '<i class="fa fa-check text-xs"></i>' : ''}
-                    </button>
-                    <span class="task-text flex-1 ${task.completed ? 'line-through text-slate-400' : ''} transition-all duration-300">
-                        ${task.text}
-                    </span>
-                </div>
-                <button class="task-delete text-slate-300 hover:text-red-500 transition-colors duration-300 p-2 rounded-full hover:bg-red-50">
-                    <i class="fa fa-trash-o"></i>
+    <!-- 支付模态框 -->
+    <div id="paymentModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-xl shadow-xl max-w-md w-full mx-4 overflow-hidden">
+            <div class="p-4 border-b border-slate-200 flex justify-between items-center">
+                <h3 class="text-lg font-semibold" id="modalTitle">选择支付方式</h3>
+                <button id="closeModal" class="text-slate-400 hover:text-slate-600 transition-colors">
+                    <i class="fa fa-times text-lg"></i>
                 </button>
-            `;
+            </div>
+            <div class="p-4">
+                <div class="mb-4">
+                    <p class="text-slate-600 mb-1">商品：<span id="modalProduct" class="font-medium"></span></p>
+                    <p class="text-slate-600">价格：<span id="modalPrice" class="font-medium text-primary"></span></p>
+                </div>
+                <div class="space-y-3">
+                    <!-- 支付宝 -->
+                    <div class="border border-slate-200 rounded-lg p-3 hover:shadow-md transition-shadow">
+                        <h4 class="font-medium mb-2 flex items-center text-sm">
+                            <i class="fa fa-credit-card text-blue-500 mr-2"></i>
+                            支付宝
+                        </h4>
+                        <div class="flex justify-center">
+                            <img src="static/zfbzf.jpg" alt="支付宝二维码" class="w-40 h-40 object-contain">
+                        </div>
+                        <p class="text-center text-xs text-slate-500 mt-2">扫描二维码支付</p>
+                    </div>
+                    
+                    <!-- 微信支付 -->
+                    <div class="border border-slate-200 rounded-lg p-3 hover:shadow-md transition-shadow">
+                        <h4 class="font-medium mb-2 flex items-center text-sm">
+                            <i class="fa fa-weixin text-green-500 mr-2"></i>
+                            微信支付
+                        </h4>
+                        <div class="flex justify-center">
+                            <img src="static/wxzf.jpg" alt="微信支付二维码" class="w-40 h-40 object-contain">
+                        </div>
+                        <p class="text-center text-xs text-slate-500 mt-2">扫描二维码支付</p>
+                    </div>
+                </div>
+            </div>
+            <div class="p-4 border-t border-slate-200 bg-slate-50">
+                <button id="confirmPayment" class="w-full py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors duration-300 text-sm">
+                    <i class="fa fa-check mr-1"></i> 确认支付
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 支付成功提示 -->
+    <div id="successToast" class="fixed bottom-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg flex items-center transform translate-y-20 opacity-0 transition-all duration-300 z-50">
+        <i class="fa fa-check-circle mr-2"></i>
+        <span>支付成功！感谢您的购买。</span>
+    </div>
+
+
+
+    <script>
+        // DOM元素
+        const body = document.body;
+        const buyBtns = document.querySelectorAll('.buy-btn');
+        const paymentModal = document.getElementById('paymentModal');
+        const closeModal = document.getElementById('closeModal');
+        const confirmPayment = document.getElementById('confirmPayment');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalProduct = document.getElementById('modalProduct');
+        const modalPrice = document.getElementById('modalPrice');
+        const successToast = document.getElementById('successToast');
+        
+        // 当前商品信息
+        let currentProduct = {
+            name: '',
+            price: ''
+        };
+        
+        // 打开支付模态框
+        function openPaymentModal(product, price) {
+            currentProduct = {
+                name: product,
+                price: price
+            };
             
-            // 添加事件监听器
-            li.querySelector('.task-toggle').addEventListener('click', () => toggleTask(task.id));
-            li.querySelector('.task-delete').addEventListener('click', () => deleteTask(task.id, li));
-            
-            return li;
+            modalProduct.textContent = product;
+            modalPrice.textContent = `¥${price}`;
+            paymentModal.classList.remove('hidden');
         }
         
-        // 切换任务完成状态
-        function toggleTask(id) {
-            tasks = tasks.map(task => 
-                task.id === id ? { ...task, completed: !task.completed } : task
-            );
-            saveTasks();
-            renderTasks();
-            updateStats();
+        // 关闭支付模态框
+        function closePaymentModal() {
+            paymentModal.classList.add('hidden');
         }
         
-        // 删除任务
-        function deleteTask(id, element) {
-            element.classList.remove('task-enter');
-            element.classList.add('task-exit');
+        // 显示成功提示
+        function showSuccessToast() {
+            successToast.classList.remove('translate-y-20', 'opacity-0');
+            successToast.classList.add('translate-y-0', 'opacity-100');
             
             setTimeout(() => {
-                tasks = tasks.filter(task => task.id !== id);
-                saveTasks();
-                renderTasks();
-                updateStats();
-                updateEmptyState();
-            }, 300);
+                successToast.classList.remove('translate-y-0', 'opacity-100');
+                successToast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
         }
         
-        // 添加新任务
-        function addTask(e) {
-            e.preventDefault();
-            
-            const text = taskInput.value.trim();
-            if (text) {
-                const newTask = {
-                    id: Date.now().toString(),
-                    text,
-                    completed: false
-                };
-                
-                tasks.push(newTask);
-                saveTasks();
-                renderTasks();
-                updateStats();
-                updateEmptyState();
-                taskInput.value = '';
-            }
-        }
-        
-        // 保存任务到本地存储
-        function saveTasks() {
-            localStorage.setItem('tasks', JSON.stringify(tasks));
-        }
-        
-        // 更新统计信息
-        function updateStats() {
-            const activeTasks = tasks.filter(task => !task.completed).length;
-            taskCount.textContent = `${activeTasks} 个任务`;
-            
-            const completedTasks = tasks.filter(task => task.completed).length;
-            clearCompleted.disabled = completedTasks === 0;
-            clearCompleted.classList.toggle('opacity-50', completedTasks === 0);
-        }
-        
-        // 更新空状态
-        function updateEmptyState() {
-            const filteredTasks = tasks.filter(task => {
-                if (currentFilter === 'active') return !task.completed;
-                if (currentFilter === 'completed') return task.completed;
-                return true;
-            });
-            
-            if (filteredTasks.length === 0) {
-                emptyState.classList.remove('hidden');
-            } else {
-                emptyState.classList.add('hidden');
-            }
-        }
-        
-        // 清除已完成任务
-        function clearCompletedTasks() {
-            const completedTasks = tasks.filter(task => task.completed);
-            
-            if (completedTasks.length > 0) {
-                // 动画效果
-                const completedElements = document.querySelectorAll('.task-completed');
-                completedElements.forEach(element => {
-                    element.classList.remove('task-enter');
-                    element.classList.add('task-exit');
-                });
-                
-                setTimeout(() => {
-                    tasks = tasks.filter(task => !task.completed);
-                    saveTasks();
-                    renderTasks();
-                    updateStats();
-                    updateEmptyState();
-                }, 300);
-            }
-        }
-        
-        // 切换过滤器
-        function setFilter(filter) {
-            currentFilter = filter;
-            
-            // 更新按钮状态
-            filterBtns.forEach(btn => {
-                btn.classList.remove('active', 'bg-primary', 'text-white');
-                btn.classList.add('text-slate-500', 'hover:bg-slate-100');
-            });
-            
-            const activeBtn = document.querySelector(`[data-filter="${filter}"]`);
-            activeBtn.classList.add('active', 'bg-primary', 'text-white');
-            activeBtn.classList.remove('text-slate-500', 'hover:bg-slate-100');
-            
-            renderTasks();
-            updateEmptyState();
+        // 确认支付
+        function handleConfirmPayment() {
+            closePaymentModal();
+            showSuccessToast();
         }
         
         // 事件监听器
-        taskForm.addEventListener('submit', addTask);
-        clearCompleted.addEventListener('click', clearCompletedTasks);
-        themeToggle.addEventListener('click', toggleTheme);
-        
-        filterBtns.forEach(btn => {
-            btn.addEventListener('click', () => setFilter(btn.dataset.filter));
+        buyBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const product = btn.dataset.product;
+                const price = btn.dataset.price;
+                openPaymentModal(product, price);
+            });
         });
         
-        // 初始化应用
-        init();
+        closeModal.addEventListener('click', closePaymentModal);
+        confirmPayment.addEventListener('click', handleConfirmPayment);
         
-        // 设置初始过滤器按钮状态
-        setFilter('all');
+        // 点击模态框外部关闭
+        paymentModal.addEventListener('click', (e) => {
+            if (e.target === paymentModal) {
+                closePaymentModal();
+            }
+        });
     </script>
 </body>
 </html>
